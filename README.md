@@ -19,11 +19,21 @@ tex-matematica-discreta/
 └── README.md             # Esta documentação
 ```
 
-## 🚀 Requisitos
+## 🚀 Requisitos e Instalação do Ambiente
 
 Certifique-se de ter os seguintes programas instalados no seu computador para usar todas as funções:
-1. Node.js e NPM: Utilizados para rodar os scripts de automação.
-2. Distribuição LaTeX (ex: MiKTeX, TeX Live): Certifique-se de que o comando `latexmk` está disponível no terminal. Ele é a principal engine de compilação escolhida pois processa todas as passagens de referências e bibliografias (`bibtex`) de forma 100% automática.
+1. **Node.js e NPM**: Utilizados para rodar os scripts de automação.
+2. **Distribuição LaTeX**: Recomendamos o **MiKTeX** (para Windows) ou **TeX Live** (Linux/Mac).
+3. **latexmk**: O script principal de compilação exige o pacote `latexmk`. Ele automatiza as passagens de referências e bibliografias (`bibtex`).
+
+### Como instalar o compilador LaTeX (Windows / MiKTeX)
+1. Baixe o instalador do [MiKTeX](https://miktex.org/download) e instale-o.
+2. Abra o "MiKTeX Console", vá na aba **Updates** e clique em "Check for updates".
+3. Para garantir que você tem o `latexmk` (responsável pela automação) disponível, abra um terminal e rode:
+   ```bash
+   mpm --install=latexmk
+   ```
+*(Se estiver usando Linux/Ubuntu, basta rodar `sudo apt install texlive-full latexmk`)*
 
 ## 🛠️ Comandos Disponíveis
 
@@ -53,3 +63,23 @@ npm run build
 ## 💡 Dicas de Uso
 - Se você adicionar um novo arquivo `.tex` avulso dentro de `content`, o `npm run compile` o identificará e compilará um PDF separado para ele de forma automática.
 - Para imagens e dependências, tome o cuidado de só manter no diretório `content` o que você efetivamente for usar no texto, pois a varredura inteligente do script de limpeza é implacável com arquivos sem referência!
+
+## 🐛 Descobertas e Solução de Problemas (Troubleshooting)
+
+Durante o desenvolvimento deste projeto, documentamos soluções cruciais para armadilhas muito comuns ao trabalhar com LaTeX. Caso enfrente problemas, consulte esta lista:
+
+### 1. O Erro `! I can't write on file sbc-template.pdf`
+Quando esse erro ocorrer durante a compilação, significa que o seu arquivo de saída (PDF) está **aberto/bloqueado por algum leitor de PDF** (como Adobe Acrobat).
+**A Solução:** Feche o arquivo PDF. Como o `latexmk` pode "memorizar" que a última execução falhou, após fechar o arquivo, primeiro rode `npm run clean` para esvaziar o cache, e logo em seguida compile novamente.
+
+### 2. Extensão LaTeX Workshop do VS Code "Travando"
+A extensão tenta auto-compilar o código e rodar verificações de formato por conta própria a cada salvamento, o que gera conflito de arquivos e lentidão. 
+**A Solução:** Foi criado um arquivo `.vscode/settings.json` no projeto, forçando a configuração `"latex-workshop.latex.autoBuild.run": "never"`. Isso devolve o controle da compilação totalmente para o nosso comando manual via NPM.
+
+### 3. Código acentuado (UTF-8) quebrando a compilação no pacote `listings`
+O pacote `listings`, que insere e formata blocos de códigos bonitos no texto, quebra (gera erros do tipo `Invalid UTF-8 byte`) caso encontre caracteres multi-byte como *é, ç, ã* nas strings ou nos comentários do seu código (Ex: Java, Python).
+**A Solução:** No cabeçalho (*preamble*) do seu arquivo principal (`sbc-template.tex`), configuramos o comando `\lstset` com o atributo `literate`. Nele, foi inserido um dicionário que mapeia toda a acentuação do português para macros do LaTeX (`literate={á}{{\'a}}1 {é}{{\'e}}1...`). Assim, a acentuação de códigos externos passa a renderizar perfeitamente.
+
+### 4. Uso de arquivos "filhos" e o comando `\input{}`
+**Regra de Ouro:** Ao criar partes do seu texto e injetá-las no arquivo principal usando o comando `\input{parts/seu-arquivo.tex}`, saiba que o arquivo importado **não pode** conter tags de inicialização (nada de `\documentclass`, `\usepackage` ou `\begin{document}`).
+O LaTeX interpreta o `\input` como se você estivesse "copiando e colando" o texto lá dentro. Se ele ler dois `\documentclass` no mesmo fluxo, ele estourará um erro. Coloque todos os imports de pacotes exclusivamente no arquivo "pai" (o arquivo principal que invoca os demais).
