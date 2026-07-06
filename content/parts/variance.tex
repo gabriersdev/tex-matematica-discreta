@@ -1,0 +1,200 @@
+\chapter{Medidas de Dispersão}
+\label{cap:desenvolvimento}
+
+As medidas de dispersão, ou variabilidade estatística, consistem basicamente em mostrar o quão uma distribuição de valores estão dispersas em relação à média ou ao valor esperado, tendo a possibilidade de haver amostras com valores geralmente mais próximos ou geralmente mais afastados. O fato dos valores serem todos, ou majoritariamente, diferentes entre si muda a forma como se deve lidar com eles ou com a cadeia de valores como um todo. Isso se dá ao fato de que, dentre os diferentes tipos de variabilidade, podem possuir nas amostras comportamentos idênticos, comportamentos meramente semelhantes, ou comportamentos completamente distintos um do outro, não podendo tratar tais casos da mesma forma. Ou seja, a média que é considerada como um número que representa uma série de valores não pode, por si mesma, destacar o grau de homogeneidade ou de heterogeneidade que há entre eles.
+
+Um exemplo prático disso são os dados coletados através dos resultados de uma prova em diferentes turmas. Supomos que a média geral das notas da prova, em ambas as turmas, tenha sido nota 5, porém, na primeira sala houveram tanto alunos que tiraram 10, como alunos que tiraram 0. Enquanto isso, na segunda turma, as notas variam apenas entre 6 e 4. Se o professor olhar unicamente para a média e usá-la como dado para futuras alterações em sua metodologia, tal alteração não será efetiva. Isso se dá pelo fato de que as turmas sofreram de diferentes variações de valores, o que implica em diferentes extremos de desempenho. Sendo assim, uma forma de se analisar a situação seria, por exemplo, levar em conta a primeira turma, com uma variação entre 0 e 10, e dar a devida ajuda e mentoria aos alunos que tiraram 0, enquanto incentiva os alunos que tiraram 10. Enquanto isso, na segunda turma, o fato da variação estar entre 4 e 6 poderia implicar em, por exemplo, erros dentro da própria prova, como a existência de questões exageradamente difíceis, longas ou com conteúdo não passado.
+
+Em um âmbito matemático, é possível analisar, por exemplo, os conjuntos de valores a seguir:
+
+• A = \{60, 60, 60, 60, 60\}
+
+• B = \{58, 59, 60, 61, 62\}
+
+• C = \{5, 10, 40, 100, 145\}
+
+Ao calcularmos a mesma média aritmética desses conjuntos:
+
+\begin{equation}
+    \label{eq:media_aritmetica}
+    \bar{a} = \frac{\sum a_i}{n} = \frac{300}{5} = 60
+\end{equation}
+
+\begin{equation}
+    \qquad
+    \bar{b} = \frac{\sum b_i}{n} = \frac{300}{5} = 60
+    \qquad
+\end{equation}
+
+\begin{equation}
+    \bar{c} = \frac{\sum c_i}{n} = \frac{300}{5} = 60
+\end{equation}
+
+Verificamos que os três conjuntos apresentam a mesma média aritmética: 60. Chegamos à conclusão que o conjunto A é mais homogêneo que os conjuntos B e C, visto que todos os valores são iguais à média. O conjunto B, por sua vez, é mais homogêneo que o conjunto C, pois há menor diversificação entre cada um de seus valores e a média representativa. Logo, o conjunto A apresenta dispersão nula, e o conjunto B apresenta uma dispersão menor que C.
+
+Dentre as medidas de dispersão, é muito comum a utilização da Variância e do Desvio padrão.
+
+
+\section{Variância}
+A variância, também conhecida como Desvio Quadrático Médio, mede a dispersão dos dados em torno de sua média, levando em consideração a totalidade dos valores da variável em estudo, o que a torna um índice de variabilidade bastante estável. A variância é representada por s2 e definida como sendo a média dos quadrados dos desvios em relação à média aritmética.
+
+Sua fórmula é representada por:
+
+% Requires: \usepackage{amsmath}
+\begin{equation}
+    s^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n - 1}
+    \label{eq:variancia_1}
+\end{equation}
+
+Podendo, também, ser destrinchada em:
+
+\begin{equation}
+    s^2 = \frac{(x_1 - \bar{x})^2 + (x_2 - \bar{x})^2 + ... + (x_n - \bar{x})^2}{n - 1}
+    \label{eq:variancia_expandida}
+\end{equation}
+
+Essa fórmula consiste, basicamente, em somar a distância de cada amostra em relação à média geral, explicando, assim, o termo: \((x_1 - \bar{x}) + ... + (x_i - \bar{x})\). Logo depois, é divido pela quantidade de termos, fazendo-se assim a média dos afastamentos:  \(\frac{(x_1 - \bar{x}) + ... + (x_i - \bar{x})}{n-1}\). Porém, feito desse jeito, valores individuais que forem menores que a média geral, caso subtraidos a essa média, eles ficarão negativos, o que criaria um cenário onde os valores, no fim se anulariam, a fórmula total chegaria próxima a 0. Para isso, é necessário elevar o resultado das subtrações ao quadrado, para assim todos os valores ficarem positivos: \(\frac{(x_1 - \bar{x})^2 + (x_2 - \bar{x})^2 + ... + (x_n - \bar{x})^2}{n - 1}\). E, por fim, para encurtar a fórmula ao máximo, traduzimos a série de somas com uma somatória, que começa do 1 e vai até o n: \(s^2 = \frac{\sum_{i=1}^n (x_i - \bar{x})^2}{n - 1}
+\label{eq:variancia_somatorio}\).
+
+Com isso, o valor da variância se dá por \(s^2\) em razão à série de elevações ao quadrado que se tem dentro da somatória, porém, se ao final for optado por colocar o restultado dentro de uma raíz quadrada, obteremos o Desvio Padrão.
+
+\subsection{OUTRAS FÓRMULAS}
+Em segundo caso, Quando a média é um valor decimal não exato, a fórmula da variância apresentada anteriormente pode se tornar não muito prática, uma vez que entrará no cálculo “n” vezes aumentando os erros de arredondamento que ocorrem. Então, é recomendável utilizar uma expressão alternativa que é obtida através de algumas manipulações algébricas na fórmula anterior:
+
+\begin{equation}
+    s^2 = \frac{1}{n-1}[(\sum_{i=1}^n (x_i^2) - n(x)^2]
+    \label{eq:variancia_alternativa}
+\end{equation}
+
+Além disso, existe, também, a fórmula de cálculo, onde simplifica o processo, pois evita calcular o desvio de cada valor em relação à média:
+
+\begin{equation}
+    s^2 = \frac{\sum x_{i}^{2}}{n} - \overline{x}^{2}
+\end{equation}
+
+\subsection{Demonstrando fórmula de cálculo}
+
+É possível provar a veracidade da segunda fórmula seguindo os passos do método de indução ou por comparação de valores. Sendo assim, digamos que em uma comunidade há 5 pessoas, sendo que cada uma delas possui uma altura diferente: 150 cm, 160 cm, 170 cm, 180 cm e 190 cm.
+
+\subsubsection{Fórmula original}
+\begin{enumerate}
+    \item Calcular média:
+          \[\bar{x} = \frac{150+160+170+180+190}{5} = 170cm\]
+
+    \item Calcular a diferença de cada valor para a média e elevar ao quadrado:
+          \[s^2 = \frac{(150 - 170)^2 + (160 - 170)^2 + (170 - 170)^2 + (180 - 170)^2 + (190 - 170)^2}{5} = \]
+
+
+          \[s^2 = \frac{(-20)^2 + (-10)^2 + 0^2 + 10^2 + 20^2}{5} = \frac{400 + 100 + 0 + 100 + 400}{5}\]
+
+    \item Somar todos os itens e dividir
+          \[s^2 = \frac{400 + 100 + 0 + 100 + 400}{5} = \frac{1000}{5} = 200cm^2\]
+\end{enumerate}
+
+\subsubsection{Fórmula alternativa}
+\begin{enumerate}
+    \item  Elevar os termos
+          \[s^2 = \frac{150^2 + 160^2 + 170^2 + 180^2 + 190^2}{5} = \frac{22500 + 25600 + 28900 + 32400 + 36100}{5}\]
+
+    \item  Somar os termos e subtrair
+          \[s^2 = \frac{22500 + 25600 + 28900 + 32400 + 36100}{5} = \frac{145500}{5} = 29100\]
+
+    \item  Finalizar com o resto da fórmula
+          \[s^2 = 29100 - 170^2 = 29100 - 28900 = 200cm^2\]
+\end{enumerate}
+
+\subsection{Variância amostral e populacional}
+O conceito de variância também pode ser usado para descrever um conjunto de observações. Ela é separada em dois tipos: variância da amostra e variância da população.
+
+A variância populacional indica como os pontos de dados de uma população como um todo estão dispersos. Já a variância amostral é usada para calcular a variabilidade em uma determinada amostra. Uma amostra é um conjunto de observações extraídas de uma população e que a representam completamente.
+
+\begin{equation}
+    \quad\mbox{Amostral:}\quad
+    s^{2} = \frac{\sum_{i=1}^{n} (x_{i} - \bar{x})^{2}}{n - 1}
+\end{equation}
+
+\begin{equation}
+    \quad\mbox{Populacional:}\quad
+    \sigma^{2} = \frac{\sum_{i=1}^{n} f(x_{i} - \bar{x})^{2}}{N}
+    \label{eq:variancia_populacional}
+\end{equation}
+
+Ambas se diferenciam pela letra grega Sigma (\(\sigma\)) e pela letra s. Além, também, da diferenciação através da divisão divisão, onde em um é com n-1, representando o número de elementos da amostra, e outro é com N apenas, representando o número total de elementos.
+
+\subsection{VARIÂNCIA DA AMOSTRA: AGRUPADA E NÃO AGRUPADA}
+Como os dados podem ser de dois tipos, agrupados e não agrupados, existem duas fórmulas disponíveis para calcular a variância da amostra.
+
+Como exemplo, suponha que um conjunto de dados seja dado como 3, 21, 98, 17 e 9. A média (29,6) do conjunto de dados é determinada. A média é subtraída de cada ponto de dados e a soma dos quadrados dos valores resultantes é calculada. Isso resulta em 6043,2. Para obter a variância da amostra, esse número é dividido por um a menos que o número total de observações. Assim, a variância da amostra é 1510,8.
+
+Os dados, quando estão em formato bruto e desorganizado, são conhecidos como dados não agrupados. Já os dados agrupados são classificados em categorias ou tabelas. As fórmulas de variância amostral para ambos os tipos de dados são dadas de maneiras diferentes:
+
+% Requires: \usepackage{amsmath}
+\begin{equation}
+    \quad\mbox{Desagrupados:}\quad
+    s^{2} = \frac{\sum_{i=1}^{n} (x_{i} - \bar{x})^{2}}{n - 1}
+\end{equation}
+
+\begin{equation}
+    \quad\mbox{Agrupados:}\quad
+    s^{2} = \frac{\sum_{i=1}^{n} f_i(x_{i} - \bar{x})^{2}}{n - 1}
+    \label{eq:variancia_agrupados}
+\end{equation}
+
+Como é possível analisar, a diferença se dá pelo \(f_i\) na fórmula dos dados desagrupados, sendo uma variável que representa a frequência absoluta da i-ésima classe (quantos dados caem nela).
+
+\subsection{Algoritmo de Welford}
+Dentro da fórmula padrão, podemos implementar em algoritmo da seguinte forma em Python:
+
+\input{./codes/variance-py-welford.tex}
+
+O mesmo código, porém em Java:
+
+\begin{verbatim}
+
+\end{verbatim}
+
+Porém, existe um algoritmo popular para o cálculo de variancia, conhecido como Algoritmo de Werlford. O algoritmo de Welford é um método matemático e computacional utilizado para calcular a média e a variância de um conjunto de dados de forma incremental e numericamente estável, utilizando-se de recursão. Ele permite que estatísticas em tempo real sejam extraídas conforme os dados chegam, sem a necessidade de armazenar todos os valores na memória ou calcular tudo de uma só vez.
+
+Em sua lógica, a cada nova entrada de dado \(x_{n}\), as fórmulas utilizadas pelo algoritmo baseiam-se em recorrências:
+
+\[\overline{x}_{n}=\overline{x}_{n-1}+\frac{x_{n}-\overline{x}_{n-1}}{n}\]
+
+Implementando em Python, esse algoritmo fica:
+
+\input{codes/variance-py-welford.tex}
+
+A mesma lógica de código, porém em Java:
+
+\input{codes/variance-java-welford.tex}
+
+Este algoritmo é muito menos propenso à perda de precisão devido ao cancelamento catastrófico , mas pode não ser tão eficiente devido à operação de divisão dentro do laço. Para um algoritmo de duas passagens particularmente robusto para calcular a variância, pode-se primeiro calcular e subtrair uma estimativa da média e, em seguida, usar este algoritmo nos resíduos.
+
+
+\section{Desvio Padrão}
+Em comparação à variância, é a medida de dispersão geralmente mais empregada, pois leva em consideração a totalidade dos valores da variável em estudo. O desvio padrão é uma medida de dispersão onde também se faz uso da média geral, medindo a variação dos valores ao redor dela. O valor mínimo do desvio padrão é 0, indicando que não há variabilidade, ou seja, que todos os valores são iguais à média. O símbolo para o desvio padrão em um conjunto de dados observados é s, e a fórmula para obter o desvio padrão é dada pela fórmula da variância, porém, implementada dentro de uma raz quadrada, tendo em visto que a variância eleva seus valores à 2:
+
+\begin{equation}
+    s = \sqrt{\frac{\sum (x_i - \bar{x})^2}{n - 1}}
+    \label{eq:desvio_padrao}
+\end{equation}
+
+\subsection{Propriedades de Desvio Padrão}
+•Ao adicionarmos ou subtrairmos uma constante a todos os valores de
+uma variável, o desvio padrão26 não se altera.
+
+• Ao multiplicarmos ou dividirmos todos os valores de uma variável por uma
+constante (diferente de zero), o desvio padrão fica multiplicado (ou dividido) por essa constante.
+
+• Tal como a variância altera sua fórmula quando os dados estão agrupados, o mesmo é feito dentro do desvio padrão:
+\(s = \sqrt{\frac{\sum f_i x_i^2}{n} - {(\frac{\sum f_i x_i}{n})^2}}\)
+
+\subsection{Coeficiente de variação}
+O desvio padrão é uma medida limitada se utilizada isoladamente. Por exemplo, um desvio padrão de 2 unidades pode ser considerado pequeno para uma série de valores cujo valor médio é 200; no entanto, se a média for igual a 20, o mesmo não pode ser dito.
+Quando desejamos comparar duas ou mais unidades relativamente à
+sua dispersão ou variabilidade, o desvio padrão não é a medida mais indicada, visto que ele se encontra na mesma unidade dos dados.
+
+Assim, contornamos este problema caracterizando a dispersão em termos relativos ao seu valor médio. Essa medida é denominada de coeficiente de variação de Pearson. O coeficiente de variação de pearson é a razão entre o desvio padrão e a média referentes aos dados de uma mesma série.
+
+O coeficiente de variação de pearson é a razão entre o desvio padrão e a média referentes aos dados de uma mesma série.
+
+\[CV = \frac{s}{x}\]

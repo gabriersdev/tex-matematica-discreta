@@ -1,0 +1,107 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{listings}
+\usepackage{xcolor}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstset{ 
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breaklines=true,                 
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\begin{document}
+
+\section{XXXXX}
+
+\begin{lstlisting}[language=Java]
+
+public class VarianceCalculator {
+
+    // Calcula a variância pelo método tradicional.
+    public static float calculateStandardVariance(int[] samples) {
+        int sampleCount = samples.length;
+        float mean = 0;
+
+        // Calcula a média da amostra.
+        for (int sample : samples) {
+            mean += sample;
+        }
+
+        mean /= sampleCount;
+
+        float squaredDifferenceSum = 0;
+
+        // Soma os desvios ao quadrado em relação à média.
+        for (int sample : samples) {
+            float difference = sample - mean;
+            squaredDifferenceSum += difference * difference;
+        }
+
+        return squaredDifferenceSum / sampleCount;
+    }
+
+    // Calcula a média da amostra de forma recursiva.
+    private static float calculateWelfordMean(int[] samples, int index) {
+        // Caso base: o primeiro elemento é a média dele mesmo.
+        if (index == 0) {
+            return samples[0];
+        }
+
+        float previousMean = calculateWelfordMean(samples, index - 1);
+
+        // Atualiza a média considerando o novo elemento.
+        return previousMean + (samples[index] - previousMean) / (index + 1);
+    }
+
+    // Soma recursivamente os desvios ao quadrado.
+    private static float calculateSquaredDifferenceSum(int[] samples, int index, float mean) {
+        float difference = samples[index] - mean;
+
+        // Caso base da recursão.
+        if (index == 0) {
+            return difference * difference;
+        }
+
+        return calculateSquaredDifferenceSum(samples, index - 1, mean)
+                + difference * difference;
+    }
+
+    // Calcula a variância utilizando os métodos recursivos.
+    public static float calculateWelfordVariance(int[] samples) {
+        int sampleCount = samples.length;
+
+        float mean = calculateWelfordMean(samples, sampleCount - 1);
+
+        float squaredDifferenceSum =
+                calculateSquaredDifferenceSum(samples, sampleCount - 1, mean);
+
+        return squaredDifferenceSum / sampleCount;
+    }
+
+    public static void main(String[] args) {
+        int[] samples = {15, 29, 34, 40};
+
+        System.out.println(calculateStandardVariance(samples)); // Saída 85.25
+        System.out.println(calculateWelfordVariance(samples)); // Saída 85.25
+    }
+}
+
+\end{lstlisting}
+\end{document}
