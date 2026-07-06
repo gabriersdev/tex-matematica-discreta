@@ -83,3 +83,26 @@ O pacote `listings`, que insere e formata blocos de códigos bonitos no texto, q
 ### 4. Uso de arquivos "filhos" e o comando `\input{}`
 **Regra de Ouro:** Ao criar partes do seu texto e injetá-las no arquivo principal usando o comando `\input{parts/seu-arquivo.tex}`, saiba que o arquivo importado **não pode** conter tags de inicialização (nada de `\documentclass`, `\usepackage` ou `\begin{document}`).
 O LaTeX interpreta o `\input` como se você estivesse "copiando e colando" o texto lá dentro. Se ele ler dois `\documentclass` no mesmo fluxo, ele estourará um erro. Coloque todos os imports de pacotes exclusivamente no arquivo "pai" (o arquivo principal que invoca os demais).
+
+### 5. Erro `latexmk não é reconhecido` e PATH no Windows
+Após a instalação do MiKTeX ou Strawberry Perl, o terminal atual pode não reconhecer os novos comandos até que seja reiniciado ou as variáveis de ambiente globais sejam atualizadas.
+**A Solução:** O script `scripts/compile.js` foi configurado para resolver isso de forma automática, injetando temporariamente no `process.env.PATH` do processo Node as pastas de instalação padrões do MiKTeX (`AppData/Local/Programs/MiKTeX` / `Program Files`) e do Strawberry Perl (`C:\Strawberry`). Isso possibilita rodar a compilação diretamente mesmo que o terminal atual ainda não tenha sido reiniciado.
+
+### 6. Janela popup "Package Installation" do MiKTeX travando o terminal
+Na primeira compilação do projeto, o MiKTeX tenta baixar os pacotes necessários (como `times.sty` ou `caption.sty`) exibindo uma janela de confirmação de interface gráfica (GUI). Se o terminal rodar em segundo plano ou o usuário não notar a janela, a compilação ficará travada indefinidamente.
+**A Solução:** Configure a ferramenta de instalação em segundo plano do MiKTeX para baixar pacotes de forma automática e silenciosa sem prompts visuais. Execute o seguinte comando no terminal:
+```bash
+initexmf --set-config-value "[MPM]AutoInstall=1"
+```
+
+### 7. Scripts PowerShell Desabilitados (`npm.ps1 não pode ser carregado`) no Windows
+No PowerShell do Windows, tentar rodar `npm run build` pode retornar um erro informando que a execução de scripts está desabilitada no sistema (`UnauthorizedAccess`).
+**A Solução:** Você pode ignorar essa restrição chamando explicitamente a versão executável `npm.cmd` em vez de `npm.ps1` usando o operador de chamada do PowerShell:
+```powershell
+& "C:\Program Files\nodejs\npm.cmd" run build
+```
+Ou alternativamente, rodar no Prompt de Comando (CMD) tradicional, ou executar o script de compilação diretamente com o Node:
+```bash
+node scripts/compile.js
+```
+
