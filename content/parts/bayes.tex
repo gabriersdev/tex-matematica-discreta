@@ -1,0 +1,19 @@
+\section{Teorema de Bayes}
+\label{cap:teoremaBayes}
+
+O Teorema de Bayes, resultado dos estudos matemáticos de Thomas Bayes e Pierre-Simon Laplace, é um teorema que permite atualizar a probabilidade de um evento a partir de novas informações disponíveis. Além disso, ele possibilita calcular a probabilidade de uma hipótese ser verdadeira sabendo que determinado evento ocorreu, mesmo quando se conhece apenas a probabilidade de esse evento ocorrer caso a hipótese seja verdadeira. Por essa razão, o teorema é amplamente utilizado em situações que envolvem tomada de decisão sob incerteza e interpretação de evidências.
+
+Matematicamente, o Teorema de Bayes pode ser expresso pela fórmula:
+
+\begin{equation}
+    P(A|B) = \frac{P(B|A) \cdot P(A)}{P(B)}
+    \label{eq:teorema_bayes}
+\end{equation}
+
+%TODO - este texto está muito chucro. Melhorar!
+
+em que $P(A)$ representa a probabilidade inicial da hipótese, $P(B|A)$ corresponde à probabilidade de observar a evidência caso a hipótese seja verdadeira e $P(B)$ representa a probabilidade total da evidência ocorrer. O resultado $P(A|B)$ é chamado de probabilidade posterior, pois corresponde à nova estimativa da hipótese após a incorporação das informações observadas. Esse processo de atualização é extremamente importante para cálculos estatísticos, sendo descrito por Harold Jeffreys como o equivalente para a probabilidade do teorema de Pitágoras para a geometria.
+
+O Teorema de Bayes possui diversas aplicações práticas em áreas como medicina, inteligência artificial, aprendizado de máquina, sistemas de recomendação e detecção de fraudes. Em exames médicos, por exemplo, um teste positivo não significa necessariamente que um paciente possui determinada doença, sendo necessário considerar também a frequência da doença na população. Assim, o teorema permite combinar as informações iniciais com os resultados obtidos para produzir estimativas mais precisas sobre a ocorrência de um evento.
+
+\input{codes/bayes-py.tex}

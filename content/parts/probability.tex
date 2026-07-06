@@ -1,0 +1,19 @@
+% TODO - formatar esse conteúdo aqui
+\section{Probabilidade}
+\label{cap:probabilidade}
+
+Para o primeiro experimento, foi considerado o jogo Cara ou Coroa. Nesse jogo, um jogador
+escolhe "Cara" e o outro "Coroa", em seguida uma moeda é lançada ao alto e é verificada
+qual face cai virada para cima. Nesse caso, a chance de vir "Cara" é:
+\[ P(Cara)=\frac{1}{2}=0,5 \]
+Ao lançar 3 moedas, a chance de vir cara em todas é:
+\[ P(Cara,Cara,Cara)=\frac{1}{2}\cdot\frac{1}{2}\cdot\frac{1}{2}=0,125 \]
+pois são eventos independentes.
+
+O código realiza o experimento $n$ vezes e calcula a probabilidade experimental (o total de
+vezes que o evento ocorre dividido pelo total de experimentos). Após vários experimentos,
+são calculados a média e variância dos resultados. A seguir está a implementação do
+experimento:
+
+\input{codes/probability-java.tex}
+

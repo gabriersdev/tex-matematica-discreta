@@ -1,0 +1,44 @@
+\section{Discussão e Análise de Resultados}
+A aplicação da Teoria da Probabilidade permitiu identificar quantitativamente a possibilidade
+de ocorrência dos eventos analisados antes da consideração de qualquer informação
+adicional.
+
+% Inserir aqui os resultados ao executar o experimento
+Ao executar o experimento computacional, os valores da média da probabilidade experimental se aproximaram do valor teórico de $0,125$ (ou $12,5\%$), e a variância observada demonstra a flutuação natural dos resultados em uma amostra finita.
+
+
+\section{Medidas de Dispersão}
+\label{sec:medidas_dispersao}
+
+As medidas de dispersão, ou variabilidade estatística, consistem basicamente em mostrar o quão uma distribuição de valores estão dispersas em relação à média ou ao valor esperado, tendo a possibilidade de haver amostras com valores geralmente mais próximos ou geralmente mais afastados. O fato dos valores serem todos, ou majoritariamente, diferentes entre si muda a forma como se deve lidar com eles ou com a cadeia de valores como um todo. Isso se dá ao fato de que, dentre os diferentes tipos de variabilidade, podem possuir nas amostras comportamentos idênticos, comportamentos meramente semelhantes, ou comportamentos completamente distintos um do outro, não podendo tratar tais casos da mesma forma. Ou seja, a média que é considerada como um número que representa uma série de valores não pode, por si mesma, destacar o grau de homogeneidade ou de heterogeneidade que há entre eles.
+
+Um exemplo prático disso são os dados coletados através dos resultados de uma prova em diferentes turmas. Supomos que a média geral das notas da prova, em ambas as turmas, tenha sido nota 5, porém, na primeira sala houveram tanto alunos que tiraram 10, como alunos que tiraram 0. Enquanto isso, na segunda turma, as notas variam apenas entre 6 e 4. Se o professor olhar unicamente para a média e usá-la como dado para futuras alterações em sua metodologia, tal alteração não será efetiva. Isso se dá pelo fato de que as turmas sofreram de diferentes variações de valores, o que implica em diferentes extremos de desempenho. Sendo assim, uma forma de se analisar a situação seria, por exemplo, levar em conta a primeira turma, com uma variação entre 0 e 10, e dar a devida ajuda e mentoria aos alunos que tiraram 0, enquanto incentiva os alunos que tiraram 10. Enquanto isso, na segunda turma, o fato da variação estar entre 4 e 6 poderia implicar em, por exemplo, erros dentro da própria prova, como a existência de questões exageradamente difíceis, longas ou com conteúdo não passado.
+
+Em um âmbito matemático, é possível analisar, por exemplo, os conjuntos de valores a seguir:
+
+\begin{itemize}
+    \item $A = \{60, 60, 60, 60, 60\}$
+    \item $B = \{58, 59, 60, 61, 62\}$
+    \item $C = \{5, 10, 40, 100, 145\}$
+\end{itemize}
+
+Ao calcularmos a mesma média aritmética desses conjuntos:
+
+\begin{equation}
+    \label{eq:media_aritmetica_a}
+    \bar{a} = \frac{\sum a_i}{n} = \frac{300}{5} = 60
+\end{equation}
+
+\begin{equation}
+    \label{eq:media_aritmetica_b}
+    \bar{b} = \frac{\sum b_i}{n} = \frac{300}{5} = 60
+\end{equation}
+
+\begin{equation}
+    \label{eq:media_aritmetica_c}
+    \bar{c} = \frac{\sum c_i}{n} = \frac{300}{5} = 60
+\end{equation}
+
+Verificamos que os três conjuntos apresentam a mesma média aritmética: 60. Chegamos à conclusão que o conjunto A é mais homogêneo que os conjuntos B e C, visto que todos os valores são iguais à média. O conjunto B, por sua vez, é mais homogêneo que o conjunto C, pois há menor diversificação entre cada um de seus valores e a média representativa. Logo, o conjunto A apresenta dispersão nula, e o conjunto B apresenta uma dispersão menor que C.
+
+Dentre as medidas de dispersão, é muito comum a utilização da Variância e do Desvio padrão.

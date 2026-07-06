@@ -5,7 +5,7 @@
   "scripts": {
     "compile": "node scripts/compile.js",
     "clean": "node scripts/clean.js",
-    "build": "npm run compile"
+    "build": "npm run clean && npm run compile"
   },
   "author": "",
   "license": "ISC"
