@@ -3,12 +3,12 @@ const path = require('path');
 
 const targetDir = path.join(__dirname, '../content');
 const outputDirName = 'output-dist';
-const outputDirPath = path.join(targetDir, outputDirName);
 
 // Extensões de arquivos temporários gerados pelo LaTeX
 const extensionsToDelete = [
   '.aux', '.bbl', '.blg', '.dvi', '.fdb_latexmk',
-  '.fls', '.log', '.synctex.gz', '.pdf'
+  '.fls', '.log', '.synctex.gz', '.pdf', '.toc', '.out', '.lof', '.lot',
+  '.bcf', '.run.xml'
 ];
 
 console.log('Iniciando limpeza inteligente no diretório content...');
@@ -73,18 +73,20 @@ fs.readdir(targetDir, (err, files) => {
   let deletedCount = 0;
 
   // 3. Limpa arquivos desnecessários na pasta content original (raiz)
+  // Remove apenas os arquivos não usados que não são diretórios nem temporários
+  // (Os temporários serão removidos na próxima etapa em todas as pastas)
   files.forEach(file => {
-    if (file === outputDirName) return; // Ignora o output-dist agora, vamos tratar ele separadamente depois
+    if (file === outputDirName) return; 
 
     const filePath = path.join(targetDir, file);
     const isTemp = extensionsToDelete.some(e => file.endsWith(e));
     const isUsed = usedFiles.has(file);
     const isDir = fs.lstatSync(filePath).isDirectory();
 
-    if (isTemp || (!isUsed && !isDir)) {
+    if (!isUsed && !isDir && !isTemp) {
       try {
         fs.unlinkSync(filePath);
-        console.log(`Deletado da origem: ${file}`);
+        console.log(`Deletado da origem (não utilizado): ${file}`);
         deletedCount++;
       } catch (err) {
         console.error(`Erro ao deletar ${file}:`, err.message);
@@ -92,24 +94,36 @@ fs.readdir(targetDir, (err, files) => {
     }
   });
 
-  // 4. Limpa tudo dentro da pasta output-dist
-  if (fs.existsSync(outputDirPath)) {
-    const outputFiles = fs.readdirSync(outputDirPath);
-    outputFiles.forEach(file => {
-      // Como o output-dist só guarda artefatos gerados, podemos apagar tudo
-      // ou apenas os de extensão listada (vamos manter a regra de extensão para segurança)
-      const isTemp = extensionsToDelete.some(e => file.endsWith(e));
-      if (isTemp) {
-        try {
-          fs.unlinkSync(path.join(outputDirPath, file));
-          console.log(`Deletado de ${outputDirName}: ${file}`);
-          deletedCount++;
-        } catch (err) {
-          console.error(`Erro ao deletar ${file} do output-dist:`, err.message);
+  // 4. Limpeza recursiva de arquivos temporários e PDFs em todas as subpastas e na raiz
+  const cleanRecursively = (dir) => {
+    if (!fs.existsSync(dir)) return;
+    const items = fs.readdirSync(dir);
+    
+    items.forEach(item => {
+      const itemPath = path.join(dir, item);
+      const isDir = fs.lstatSync(itemPath).isDirectory();
+      
+      if (isDir) {
+        cleanRecursively(itemPath);
+      } else {
+        const isTemp = extensionsToDelete.some(e => item.endsWith(e));
+        // Evita deletar um PDF que está sendo explicitamente usado como imagem/arquivo referenciado
+        const isUsed = usedFiles.has(item);
+        
+        if (isTemp && !isUsed) {
+          try {
+            fs.unlinkSync(itemPath);
+            console.log(`Deletado (temporário/PDF): ${itemPath}`);
+            deletedCount++;
+          } catch (err) {
+            console.error(`Erro ao deletar ${itemPath}:`, err.message);
+          }
         }
       }
     });
-  }
+  };
+
+  cleanRecursively(targetDir);
 
   console.log(`\nLimpeza concluída! ${deletedCount} arquivo(s) removido(s).`);
 });
