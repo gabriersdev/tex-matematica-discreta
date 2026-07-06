@@ -1,6 +1,27 @@
 const {execSync} = require('child_process');
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
+
+// Ajusta o PATH no Windows para garantir que o MiKTeX e o Strawberry Perl sejam encontrados
+if (process.platform === 'win32') {
+  const homedir = os.homedir();
+  const additionalPaths = [
+    path.join(homedir, 'AppData/Local/Programs/MiKTeX/miktex/bin/x64'),
+    'C:\\Program Files\\MiKTeX\\miktex\\bin\\x64',
+    'C:\\Program Files (x86)\\MiKTeX\\miktex\\bin\\x64',
+    'C:\\Strawberry\\perl\\bin',
+    'C:\\Strawberry\\c\\bin'
+  ];
+
+  const existingPaths = (process.env.PATH || '').split(path.delimiter);
+  const pathsToAdd = additionalPaths.filter(p => fs.existsSync(p));
+
+  if (pathsToAdd.length > 0) {
+    process.env.PATH = [...pathsToAdd, ...existingPaths].join(path.delimiter);
+  }
+}
+
 
 const targetDir = path.join(__dirname, '../content');
 const outputDirName = 'output-dist';
