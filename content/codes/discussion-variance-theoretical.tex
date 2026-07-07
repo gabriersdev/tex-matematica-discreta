@@ -1,0 +1,8 @@
+\begin{lstlisting}[language=Python]
+# IMPLEMENTANDO COMPARAÇÃO DE VARIÂNCIA
+# Cálculo da variância teórica
+theoreticalVariance = 0
+for i in range(len(values)):
+    # Para cada valor, calcula o desvio ao quadrado em relação à média, ponderado pela probabilidade
+    theoreticalVariance += ((weights[i] / weightTotal) * ((values[i] - expectedValue) ** 2))
+\end{lstlisting}

@@ -1,0 +1,25 @@
+\begin{lstlisting}[language=Python]
+# Implementação do gráfico da variância
+plt.rc('lines', linewidth=2.5)
+fig, ax = plt.subplots(figsize=(10, 6))
+
+ax.set_title('Variância da Média Amostral (Lei dos Grandes Números)')
+ax.set_xlabel('Número de Iterações (n)')
+ax.set_ylabel('Variância da Média (sigma^2/n)')
+ax.grid(True)
+ax.set_xscale('log') # Escala log no eixo X para visualizar todas as iterações
+ax.set_yscale('log') # Escala log no eixo Y pois a variância decai exponencialmente
+
+# Começa no índice 10 para evitar instabilidade numérica nas primeiras iterações
+start = 10
+
+# Linha tracejada: variância teórica da média, o comportamento ideal esperado
+ax.plot(nArray[start:], theoreticalVarianceOfMean[start:], dashes=[6,2], label='sigma^2/n (teórico)')
+
+# Linha contínua: variância empírica da média calculada a cada iteração
+ax.plot(nArray[start:], varianceOfMean[start:], label='variância empírica da média', alpha=0.7)
+
+ax.legend(handlelength=4)
+plt.tight_layout()
+plt.show()
+\end{lstlisting}

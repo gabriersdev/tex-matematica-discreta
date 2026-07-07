@@ -1,0 +1,15 @@
+\begin{lstlisting}[language=Python]
+# Implementação de gráfico
+plt.rc('lines', linewidth=2.5)
+fig, ax = plt.subplots()
+ax.set_title('Valor Esperado')
+ax.grid(True)
+ax.set_xscale('log')
+ax.set_yscale('symlog')
+
+line1, = ax.plot(x, expectedValue * x, dashes=[6,2], label='valor esperado')
+line2, = ax.plot(x, y, label='valor gerado')
+
+ax.legend(handlelength=4)
+plt.show()
+\end{lstlisting}

@@ -1,0 +1,15 @@
+\begin{lstlisting}[language=Python]
+# Cálculo da variância empírica ao longo das iterações
+valueArray = np.array(valueArrayRandom) # Converte a lista para array
+nArray = np.arange(1, elements + 1) # Array com o número de iterações
+cumsumValues = np.cumsum(valueArray) # Soma acumulada
+cumsumSqValues = np.cumsum(valueArray ** 2) # Soma acumulada dos quadrados
+
+runningMean = cumsumValues / nArray # Média acumulada a cada iteração
+runningMeanSq = cumsumSqValues / nArray # Média dos quadrados acumulada
+
+runningVariance = runningMeanSq - (runningMean ** 2) # Variância empírica
+varianceOfMean = runningVariance / nArray # Variância DA MÉDIA
+
+theoreticalVarianceOfMean = theoreticalVariance / nArray # Variância teórica da média
+\end{lstlisting}

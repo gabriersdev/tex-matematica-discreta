@@ -1,50 +1,95 @@
 \section{Discussão e Análise de Resultados}
 \label{cap:discussao}
 
-...
-\section{Discussão e Análise de Resultados}
+Para o valor esperado, foi elaborada uma comparação gráfica para mostrar como os valores se comportam a partir da Lei dos Grandes Números. Primeiramente, o código foi elaborado em Python para melhor análise de dados, e foram necessários importar bibliotecas, tais como \texttt{random} (usada para gerar valores aleatórios), \texttt{matplotlib.pyplot} (usada para criar gráficos e visualizar dados) e \texttt{numpy} (usada para cálculos matemáticos e científicos):
 
-A análise do cenário inicial, guiada estritamente pela Teoria da Probabilidade clássica, permitiu mapear as chances estáticas dos eventos antes de qualquer imprevisto. No experimento do lançamento de moedas, a probabilidade teórica projetou uma chance clara de 12,5\% para a ocorrência tripla, servindo como uma linha de base sólida para os cálculos. Da mesma forma, no cenário analítico de diagnósticos, a probabilidade inicial indicava que apenas 1\% da população possuía determinada característica, estabelecendo uma fundação matemática estática antes da inserção de novas variáveis empíricas.
+\input{codes/discussion-imports.tex}
 
-Contudo, a introdução de novas evidências exigiu a aplicação do Teorema de Bayes, alterando drasticamente a percepção de risco mapeada inicialmente. Conforme ilustrado na Tabela \ref{tab:comparativo_bayes}, a probabilidade prévia de um indivíduo pertencer ao grupo de risco (1\%) sofreu um choque de realidade ao ser confrontada com um teste positivo, saltando para 16,10\%. Essa tabela comprova como a nova evidência calibra o sistema, demonstrando que confiar apenas na probabilidade estática inicial ou na alta precisão isolada de um teste (95\%) levaria a uma interpretação totalmente precipitada e arriscada.
+Adiante, as variáveis principais para o cálculo foram criadas, juntamente da quantidade de iterações que seriam feitas:
 
-\begin{table}[ht]
+\input{codes/discussion-vars.tex}
+
+Assim podemos seguir para o script de cálculo matemático, utilizando-se da fórmula geral, além também de gerar uma série de valores aleatórios como entrada para a comparação base:
+
+\input{codes/discussion-expected-value.tex}
+
+Por último, o código para a criação dos gráficos foram criados, junto com sua chamada, utilizando-se dos valores randomizados:
+
+\input{codes/discussion-plot.tex}
+
+Em resumo, a lógica por trás do algoritmo se dá à comparação do valor esperado calculado de uma série de elementos, possuindo seus respectivos pesos probabilísticos, com o valor médio gerado em um milhão de iterações. Quando executado dentro da ferramenta Google Colab para visualização gráfica, obtemos resultados diferentes em cada teste:
+
+\begin{figure}[htpb]
     \centering
-    \caption{Comparação de Probabilidades: Cenário Estático vs. Atualização Bayesiana}
-    \label{tab:comparativo_bayes}
-    \begin{tabular}{|l|c|c|}
-        \hline
-        \textbf{Métrica Analisada} & \textbf{Probabilidade Antes} & \textbf{Probabilidade Depois (Bayes)} \\ \hline
-        Prevalência Base na População & 1,00\% & - \\ \hline
-        Positivo Verdadeiro (Sensibilidade) & - & 95,00\% \\ \hline
-        Falso Positivo & - & 5,00\% \\ \hline
-        \textbf{Chance Real Atualizada} & \textbf{1,00\%} & \textbf{16,10\%} \\ \hline
-    \end{tabular}
-\end{table}
-
-Com as probabilidades atualizadas em mãos, os dados foram submetidos à análise de Valor Esperado para projetar tendências a longo prazo sob a ótica da Lei dos Grandes Números. Para evidenciar esse comportamento, elaborou-se um algoritmo para análise de dados realizando um milhão de simulações com pesos e valores variados, estruturado da seguinte forma:
-
-[placeholder para o bloco de código Python do Valor Esperado]
-
-Observando o gráfico gerado por essa simulação (Figura \ref{fig:valor_esperado}), conclui-se que a média dos elementos aleatórios e sua comparação com o valor esperado não são inicialmente determinísticos. Com poucos dados gerados, cada sorteio possui um impacto extremo, resultando em violentas oscilações. Porém, quanto mais iterações são realizadas (principalmente ultrapassando a abscissa $10^2$ e ordenada $10^4$), mais as curvas tendem a se estabilizar e se alinhar uma sobre a outra, possuindo uma diferença insignificante e provando que a expectativa de longo prazo respeita a matemática calculada.
-
-\begin{figure}[ht]
-    \centering
-    [placeholder para a imagem do gráfico comparativo de Valor Esperado]
-    \caption{Convergência do Valor Esperado ao longo das iterações logarítmicas.}
-    \label{fig:valor_esperado}
+    \includegraphics[width=0.45\textwidth]{media/valesperado-2.png}
+    \includegraphics[width=0.45\textwidth]{media/valesperado-3.png}
+    \caption{Resultados gráficos do Valor Esperado (Exemplos Iniciais)}
 \end{figure}
 
-Por fim, a Variância atuou como o termômetro fundamental para medir a instabilidade da operação e atestar o nível de risco dos valores gerados. Para demonstrar a variabilidade de um grande volume de dados estocásticos, a variância empírica e a teórica foram calculadas cumulativamente a cada iteração, por meio do seguinte script:
+Observando atentamente, é possível concluir que, por mais que o valor esperado tenha uma constância, a média dos elementos aleatórios e sua comparação com o valor esperado não são determinísticos, sofrendo de violentas oscilações na linha do valor gerado. Isso se dá ao fato de que com poucos dados gerados, cada sorteio tem um impacto extremo no valor final da média.
 
-[placeholder para o bloco de código Python da Variância]
+Porém, quanto mais iterações são feitas, mais os gráficos tendem a se assemelhar, passando a se alinhar um por cima do outro. Isso se dá em razão da média ter uma tendência a se estabilizar quando há muitos valores, pois cada novo valor aleatório gerado não será capaz de influenciar significativamente no resultado total da média. Sua normalização tende a ser mais perceptível por volta da abscissa $10^2$ e da ordenada $10^4$. Após esses pontos, as linhas passam a ficar quase totalmente sobrepostas, possuindo uma diferença cada vez mais insignificante e imperceptível, sendo isso uma consequência da Lei dos Grandes Números.
 
-Conforme atestado pelo decaimento exponencial na Figura \ref{fig:variancia}, ocorre uma primeira oscilação na variância que reflete a mesma instabilidade brutal visualizada inicialmente no gráfico de Valor Esperado. Contudo, com o passar da série de simulações, o alcance de variabilidade diminui e o gráfico segue caindo cada vez mais próximo de zero, sem nunca tocá-lo. Isso comprova de forma incontestável a nossa análise de risco: decisões estruturais baseadas em amostragens curtas sofrem de alta variância (alto risco), tornando-se seguras apenas quando o volume massivo de testes força a redução estrita do caos rumo à constância da média.
+A Lei dos Grandes Números é um teorema dentro da probabilidade, consistindo na afirmação de que o resultado da realização da mesma experiência repetidas vezes possui a tendência de aproximar o valor consequente da média ao valor esperado. Em outras palavras, quanto mais tentativas são realizadas, mais a probabilidade da média aritmética dos resultados observados irá se aproximar da probabilidade real.
 
-\begin{figure}[ht]
+Sendo assim, caso a comparação fosse feita com um número menor de iterações, dependendo da quantidade (por exemplo, 10 iterações), o valor comparado seria extremamente diferente na extrema maioria das vezes.
+
+
+\section{Simulação Computacional - Variância}
+
+Dentro da demonstração de variância, continuaremos com o mesmo script usado no valor esperado, demonstrando como a variabilidade se comporta quando se há um grande número de valores sendo calculados, sendo visualizado por gráfico para melhor compreensão visual dos testes.
+
+Com este fim, adicionaremos ao código uma cláusula que irá calcular a variância dos valores e a ilustrar graficamente, primeiramente começando com a implementação dos cálculos da variância, começando primeiro com o cálculo da variância teórica, ou, o valor calculado antes de qualquer simulação:
+
+\input{codes/discussion-variance-theoretical.tex}
+
+Após isso, foi implementado um script para a variância empírica, calculado a partir dos dados reais gerados pela simulação. A variância empírica é uma estimativa da variância teórica baseada em observações:
+
+\input{codes/discussion-variance-empirical.tex}
+
+Assim, com os resultados sendo calculados, chegou a hora de implementar uma ilustração gráfica para os resultados:
+
+\input{codes/discussion-variance-plot.tex}
+
+Como resultados, foram obtidas as seguintes variâncias para cada caso gerado, ilustrando a comparação entre o valor esperado com o valor gerado em cima, seguidos com o gráfico da variância dos mesmos valores logo abaixo:
+
+\subsection*{Caso 1}
+\begin{figure}[htpb]
     \centering
-    [placeholder para a imagem do gráfico de Variância da Média Amostral]
-    \caption{Decaimento da Variância da Média em escala logarítmica.}
-    \label{fig:variancia}
+    \includegraphics[width=0.7\textwidth]{media/valesperado-4.png}
+    \caption{Caso 1: Comparação do Valor Esperado}
 \end{figure}
-...
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{media/valesperado-5.png}
+    \caption{Caso 1: Variância da Média Amostral}
+\end{figure}
+
+\subsection*{Caso 2}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{media/valesperado-6.png}
+    \caption{Caso 2: Comparação do Valor Esperado}
+\end{figure}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{media/valesperado-7.png}
+    \caption{Caso 2: Variância da Média Amostral}
+\end{figure}
+
+\subsection*{Caso 3}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{media/valesperado-8.png}
+    \caption{Caso 3: Comparação do Valor Esperado}
+\end{figure}
+\begin{figure}[htpb]
+    \centering
+    \includegraphics[width=0.7\textwidth]{media/valesperado-9.png}
+    \caption{Caso 3: Variância da Média Amostral}
+\end{figure}
+
+%\includegraphics[width=0.7\textwidth]{media/valesperado-10.png}
+
+Com isso, é possível observar que, tal como na variância, há uma primeira oscilação no cálculo da variância baseada nos valores aleatórios. Por mais que a oscilação não aparente ser tão brusca na ilustração, ela é que tende a oscilação gerada no gráfico do valor esperado e da média geral. Adiante, as linhas tendem a também se normalizar, chegando a estarem ambas uma sobre a outra, porém, além dessa semi igualdade, o gráfico, com o passar da série de simulações, segue diminuindo o seu valor, chegando cada vez mais próximo de zero, porém, nunca em zero. Isso se dá ao fato de que, com a Lei dos Grandes Números, a variância tende a praticamente zerar em relação ao valor esperado, pois, como maiores testes levam a resultados cada vez mais perto da média, o alcance de variabilidade também diminui, levando-o a seguir uma constância.
+

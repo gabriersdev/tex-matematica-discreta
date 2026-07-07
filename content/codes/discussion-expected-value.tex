@@ -1,0 +1,12 @@
+\begin{lstlisting}[language=Python]
+# Cálculo do valor esperado
+expectedValue = 0
+for i in range(len(values)):
+    # Calcula probabilidade e multiplica pelo valor, isso em cada elemento
+    expectedValue += ((weights[i] / weightTotal) * values[i])
+
+# Gerando valores aleatórios pra comparar com o valor esperado
+x = np.linspace(1, elements, elements)
+valueArrayRandom = random.choices(population=values, weights=weights, k=elements) # Sorteia 1 milhão de valores
+y = np.cumsum(valueArrayRandom)
+\end{lstlisting}
