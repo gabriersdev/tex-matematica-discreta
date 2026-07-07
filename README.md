@@ -45,6 +45,8 @@ npm run compile
 ```
 - O que faz: Entra na pasta `content` e compila os arquivos `.tex` encontrados.
 - Destino Limpo: Graças ao gerenciamento do script, seu PDF final e os resíduos do LaTeX (`.aux`, `.log`, `.bbl`, etc) são isolados e salvos diretamente na pasta `content/output-dist`, mantendo a raiz do seu texto organizada.
+- **Dica de logs:** O arquivo `scripts/compile.js` contém a variável de controle `SHOW_SYSTEM_LOGS` (definida como `false` por padrão). Altere-a para `true` caso deseje ver todos os detalhes e o progresso da compilação do LaTeXmk/pdflatex em tempo real no terminal.
+
 
 ### Limpeza Inteligente
 ```bash
@@ -105,4 +107,21 @@ Ou alternativamente, rodar no Prompt de Comando (CMD) tradicional, ou executar o
 ```bash
 node scripts/compile.js
 ```
+
+### 8. Erros `! LaTeX Error: There's no line here to end.` e `Missing \begin{document}.` em `\nextinstitute`
+Ao utilizar o template da SBC para declarar múltiplos blocos de endereços ou e-mails, o comando `\nextinstitute` **deve obrigatoriamente estar dentro** do bloco do comando `\address{...}`.
+**A Solução:** Mova o fechamento de chave `}` do bloco `\address{` para depois do último e-mail ou do comando `\nextinstitute`. Caso a chave seja fechada prematuramente antes de `\nextinstitute`, o compilador tentará renderizá-lo fora do cabeçalho, provocando erros de compilação fatais.
+
+### 9. Uso de Asteriscos Personalizados nas Filiações e a Numeração Automática (`¹`)
+Caso prefira usar marcações personalizadas de autores (ex: `Nome\inst{*}`, `Nome\inst{**}`) em vez da numeração sequencial tradicional (`1, 2, ...`), o template SBC adicionará por padrão o caractere automático de filiação `¹` na primeira linha de endereço.
+**A Solução:** Redefina a macro `\instnum` para vazia inserindo a instrução `\renewcommand{\instnum}{}` logo após declarar o bloco `\address{...}` no preâmbulo do seu arquivo principal.
+
+### 10. Quebra de Linha em Listas de Autores Muito Longas (`\author{}`)
+Quando o projeto contém muitos autores, a lista pode exceder a largura padrão e estourar as margens.
+**A Solução:** Você pode forçar uma quebra de linha inserindo o comando de quebra do LaTeX `\\` ao final da linha de um dos autores (ex: `Nome\inst{***},\\`). Certifique-se de utilizar apenas comandos LaTeX válidos e **nunca** caracteres especiais literais como `\n` ou barras invertidas simples, pois o compilador retornará `! Undefined control sequence.`.
+
+### 11. Erro de Arquivo Não Encontrado (`File not found`) em comandos `\input{}`
+Erros fatais ocorrem quando o nome do arquivo referenciado dentro de um comando `\input{}` não coincide exatamente com o arquivo existente na pasta de origem.
+**A Solução:** Verifique eventuais erros de digitação (typos) no nome e extensão dos arquivos importados. Por exemplo, referenciar `codes/esparance-py.tex` quando o arquivo em disco se chama `esperance-py.tex` (com 'e') fará a compilação do LaTeX falhar.
+
 

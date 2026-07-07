@@ -1,6 +1,9 @@
 const fs = require('fs');
 const path = require('path');
 
+const RED_BG_WHITE_TEXT = '\x1b[41m\x1b[97m\x1b[1m';
+const RESET = '\x1b[0m';
+
 const targetDir = path.join(__dirname, '../content');
 const outputDirName = 'output-dist';
 
@@ -15,7 +18,7 @@ console.log('Iniciando limpeza inteligente no diretório content...');
 
 fs.readdir(targetDir, (err, files) => {
   if (err) {
-    console.error('Erro ao ler o diretório:', err);
+    console.error(`${RED_BG_WHITE_TEXT} Erro ao ler o diretório: ${err.message || err} ${RESET}`);
     return;
   }
 
@@ -89,7 +92,7 @@ fs.readdir(targetDir, (err, files) => {
         console.log(`Deletado da origem (não utilizado): ${file}`);
         deletedCount++;
       } catch (err) {
-        console.error(`Erro ao deletar ${file}:`, err.message);
+        console.error(`${RED_BG_WHITE_TEXT} Erro ao deletar ${file}: ${err.message} ${RESET}`);
       }
     }
   });
@@ -116,7 +119,7 @@ fs.readdir(targetDir, (err, files) => {
             console.log(`Deletado (temporário/PDF): ${itemPath}`);
             deletedCount++;
           } catch (err) {
-            console.error(`Erro ao deletar ${itemPath}:`, err.message);
+            console.error(`${RED_BG_WHITE_TEXT} Erro ao deletar ${itemPath}: ${err.message} ${RESET}`);
           }
         }
       }

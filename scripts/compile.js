@@ -23,6 +23,12 @@ if (process.platform === 'win32') {
 }
 
 
+const RED_BG_WHITE_TEXT = '\x1b[41m\x1b[97m\x1b[1m';
+const RESET = '\x1b[0m';
+
+// Variavel de controle para exibir ou ocultar os logs detalhados do compilador (latexmk/pdflatex)
+const SHOW_SYSTEM_LOGS = false; // Altere para true se desejar ver todos os logs do LaTeX
+
 const targetDir = path.join(__dirname, '../content');
 const outputDirName = 'output-dist';
 const outputDirPath = path.join(targetDir, outputDirName);
@@ -41,7 +47,7 @@ try {
     process.exit(0);
   }
   
-  console.log(`Encontrado(s) ${texFiles.length} arquivo(s) .tex para compilar.\n`);
+  console.log(`Encontrado(s) ${texFiles.length} arquivo(s) .tex para compilar.`);
   
   texFiles.forEach(texFile => {
     const texPath = path.join(targetDir, texFile);
@@ -50,14 +56,27 @@ try {
     try {
       // Adicionamos a flag -outdir para que tudo (incluindo os arquivos temporários)
       // seja gerado e salvo na pasta 'output-dist'
-      execSync(`latexmk -pdf -interaction=nonstopmode -outdir="${outputDirName}" -cd "${texPath}"`, {stdio: 'inherit'});
+      const stdioOption = SHOW_SYSTEM_LOGS ? 'inherit' : 'pipe';
+      execSync(`latexmk -pdf -interaction=nonstopmode -outdir="${outputDirName}" -cd "${texPath}"`, {stdio: stdioOption});
       
-      console.log(`\n Sucesso! O PDF de ${texFile} foi exportado para content/${outputDirName}/`);
+      console.log(`Sucesso! O PDF de ${texFile} foi exportado para content/${outputDirName}/`);
     } catch (error) {
-      console.error(`\nErro ao compilar ${texFile}. Verifique a saída acima.`);
+      console.error(`${RED_BG_WHITE_TEXT} ERRO AO COMPILAR ${texFile} ${RESET}`);
+      if (!SHOW_SYSTEM_LOGS) {
+        if (error.stdout && error.stdout.toString().trim()) {
+          console.error('- SAÍDA DO COMPILADOR (STDOUT):');
+          console.error(error.stdout.toString());
+        }
+        if (error.stderr && error.stderr.toString().trim()) {
+          console.error('- ERRO DO COMPILADOR (STDERR):');
+          console.error(error.stderr.toString());
+        }
+      } else {
+        console.error('Verifique a saída acima.');
+      }
     }
   });
   
 } catch (err) {
-  console.error('Erro ao acessar o diretório:', err.message);
+  console.error(`${RED_BG_WHITE_TEXT} ERRO AO ACESSAR O DIRETÓRIO: ${err.message} ${RESET}`);
 }
