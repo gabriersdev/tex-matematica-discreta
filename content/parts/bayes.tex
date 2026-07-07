@@ -10,10 +10,41 @@ Matematicamente, o Teorema de Bayes pode ser expresso pela fórmula:
     \label{eq:teorema_bayes}
 \end{equation}
 
-%TODO - este texto está muito chucro. Melhorar!
+Cada um dos termos presentes na Equação~\ref{eq:teorema_bayes} possui uma denominação formal e um significado específico dentro da inferência estatística:
+\begin{itemize}
+    \item $P(A|B)$ é a \textbf{probabilidade a posteriori} (ou posterior): representa a probabilidade atualizada de a hipótese $A$ ser verdadeira após a observação da evidência $B$.
+    \item $P(B|A)$ é a \textbf{verossimilhança} (\textit{likelihood}): corresponde à probabilidade de observar a evidência $B$ dado que a hipótese $A$ é verdadeira.
+    \item $P(A)$ é a \textbf{probabilidade a priori} (ou prior): indica a probabilidade inicial atribuída à hipótese $A$ antes de qualquer nova evidência ser coletada.
+    \item $P(B)$ é a \textbf{probabilidade marginal} (ou evidência): expressa a probabilidade total de a evidência $B$ ocorrer sob todos os cenários possíveis do espaço amostral.
+\end{itemize}
 
-em que $P(A)$ representa a probabilidade inicial da hipótese, $P(B|A)$ corresponde à probabilidade de observar a evidência caso a hipótese seja verdadeira e $P(B)$ representa a probabilidade total da evidência ocorrer. O resultado $P(A|B)$ é chamado de probabilidade posterior, pois corresponde à nova estimativa da hipótese após a incorporação das informações observadas. Esse processo de atualização é extremamente importante para cálculos estatísticos, sendo descrito por Harold Jeffreys como o equivalente para a probabilidade do teorema de Pitágoras para a geometria.
+Frequentemente, a probabilidade marginal $P(B)$ não é conhecida de antemão. Para obtê-la, aplica-se a \textbf{Lei da Probabilidade Total}. Se considerarmos uma hipótese $A$ e o seu complemento $\overline{A}$ (o evento em que a hipótese é falsa), que juntos formam uma partição do espaço amostral, a evidência $P(B)$ pode ser calculada como:
+\begin{equation}
+    P(B) = P(B|A)P(A) + P(B|\overline{A})P(\overline{A})
+    \label{eq:lei_probabilidade_total}
+\end{equation}
+Substituindo a Equação~\ref{eq:lei_probabilidade_total} na formulação original (Equação~\ref{eq:teorema_bayes}), obtém-se a forma expandida do Teorema de Bayes:
+\begin{equation}
+    P(A|B) = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|\overline{A})P(\overline{A})}
+    \label{eq:bayes_expandido}
+\end{equation}
 
-O Teorema de Bayes possui diversas aplicações práticas em áreas como medicina, inteligência artificial, aprendizado de máquina, sistemas de recomendação e detecção de fraudes. Em exames médicos, por exemplo, um teste positivo não significa necessariamente que um paciente possui determinada doença, sendo necessário considerar também a frequência da doença na população. Assim, o teorema permite combinar as informações iniciais com os resultados obtidos para produzir estimativas mais precisas sobre a ocorrência de um evento.
+Esse processo de atualização é fundamental para análises científicas e tomadas de decisão. O matemático Harold Jeffreys descreveu o Teorema de Bayes como o correspondente na probabilidade ao que o Teorema de Pitágoras representa para a geometria clássica.
+
+Para ilustrar o teorema de maneira intuitiva e evidenciar o seu caráter às vezes contra-intuitivo, considere um cenário de diagnóstico clínico de uma doença rara. Suponha que essa patologia acometa apenas $1\%$ de determinada população, o que nos dá uma probabilidade a priori de ter a doença igual a $P(\text{Doenca}) = 0{,}01$. Um laboratório desenvolveu um teste para detectar a enfermidade, cujo exame apresenta uma sensibilidade (taxa de verdadeiro positivo) de $95\%$, ou seja, $P(\text{Positivo}|\text{Doenca}) = 0{,}95$. No entanto, o teste possui uma taxa de falso positivo de $5\%$, significando que $P(\text{Positivo}|\text{Saudavel}) = 0{,}05$. 
+
+Se um paciente escolhido ao acaso nessa população realiza o teste e o resultado é positivo, qual é a probabilidade real de que ele de fato possua a doença? Aplicando o teorema expandido (Equação~\ref{eq:bayes_expandido}), calcula-se primeiramente a probabilidade marginal de obter um resultado positivo:
+\[ P(\text{Positivo}) = P(\text{Positivo}|\text{Doenca})P(\text{Doenca}) + P(\text{Positivo}|\text{Saudavel})P(\text{Saudavel}) \]
+\[ P(\text{Positivo}) = (0{,}95 \cdot 0{,}01) + (0{,}05 \cdot 0{,}99) = 0{,}0095 + 0{,}0495 = 0{,}0590 \]
+Agora, calcula-se a probabilidade posterior do paciente estar doente dado o teste positivo:
+\begin{equation}
+    P(\text{Doenca}|\text{Positivo}) = \frac{P(\text{Positivo}|\text{Doenca}) \cdot P(\text{Doenca})}{P(\text{Positivo})} = \frac{0{,}0095}{0{,}0590} \approx 0{,}1610
+    \label{eq:exemplo_bayes_calculo}
+\end{equation}
+
+O resultado revela que o indivíduo que obteve o teste positivo tem apenas cerca de $16{,}10\%$ de chance de estar realmente doente. Esse fenômeno decorre do fato de a doença ser extremamente rara na população ($1\%$), fazendo com que a quantidade absoluta de falsos positivos gerados pelo teste seja muito superior à quantidade de verdadeiros positivos.
+
+Para validar numericamente esse comportamento, o script em Python a seguir realiza tanto o cálculo analítico exato quanto uma simulação empírica baseada na geração randômica de uma população virtual de indivíduos, comparando os resultados teóricos com os obtidos por simulação:
 
 \input{codes/bayes-py.tex}
+

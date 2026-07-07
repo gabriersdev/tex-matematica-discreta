@@ -1,19 +1,22 @@
-% TODO - formatar esse conteúdo aqui
 \section{Probabilidade}
 \label{cap:probabilidade}
 
-Para o primeiro experimento, foi considerado o jogo Cara ou Coroa. Nesse jogo, um jogador
-escolhe "Cara" e o outro "Coroa", em seguida uma moeda é lançada ao alto e é verificada
-qual face cai virada para cima. Nesse caso, a chance de vir "Cara" é:
-\[ P(Cara)=\frac{1}{2}=0,5 \]
-Ao lançar 3 moedas, a chance de vir cara em todas é:
-\[ P(Cara,Cara,Cara)=\frac{1}{2}\cdot\frac{1}{2}\cdot\frac{1}{2}=0,125 \]
-pois são eventos independentes.
+Para a realização do primeiro experimento prático, utilizou-se o modelo clássico do lançamento de moedas, especificamente o jogo de Cara ou Coroa. Neste contexto, define-se um espaço amostral discreto e equiprovável $\Omega = \{\text{Cara}, \text{Coroa}\}$, no qual cada evento simples possui a mesma probabilidade de ocorrência. Dessa forma, a probabilidade teórica de obter a face "Cara" em um único lançamento de uma moeda justa é dada por:
 
-O código realiza o experimento $n$ vezes e calcula a probabilidade experimental (o total de
-vezes que o evento ocorre dividido pelo total de experimentos). Após vários experimentos,
-são calculados a média e variância dos resultados. A seguir está a implementação do
-experimento:
+\begin{equation}
+    P(\text{Cara}) = \frac{1}{2} = 0{,}5
+    \label{eq:probabilidade_simples}
+\end{equation}
+
+Estendendo o experimento para o lançamento simultâneo de três moedas honestas e independentes, o espaço amostral resultante passa a conter $2^3 = 8$ eventos possíveis de igual probabilidade. A probabilidade de obter a face "Cara" em todos os três lançamentos é calculada pelo produto das probabilidades individuais, visto que os lançamentos constituem eventos mutuamente independentes:
+
+\begin{equation}
+    P(\text{Cara}, \text{Cara}, \text{Cara}) = \frac{1}{2} \cdot \frac{1}{2} \cdot \frac{1}{2} = 0{,}125
+    \label{eq:probabilidade_composta}
+\end{equation}
+
+A fim de simular esse comportamento estocástico de forma computacional, a implementação desenvolvida realiza o experimento de lançamento das três moedas por um total de $n$ iterações, calculando a probabilidade experimental de sucesso (o total de vezes que o evento triplo ocorreu dividido pelo total de testes). Após a repetição de múltiplos experimentos independentes, são calculadas a média aritmética e a variância dos resultados experimentais obtidos. A seguir, é apresentada a implementação em linguagem Java criada para conduzir essa simulação:
 
 \input{codes/probability-java.tex}
+
 

@@ -58,7 +58,7 @@ Essa fórmula consiste, basicamente, em somar a distância de cada amostra em re
 
 Com isso, o valor da variância se dá por \(s^2\) em razão à série de elevações ao quadrado que se tem dentro da somatória, porém, se ao final for optado por colocar o restultado dentro de uma raíz quadrada, obteremos o Desvio Padrão.
 
-\subsection{OUTRAS FÓRMULAS}
+\subsection{Outras fórmulas}
 Em segundo caso, Quando a média é um valor decimal não exato, a fórmula da variância apresentada anteriormente pode se tornar não muito prática, uma vez que entrará no cálculo “n” vezes aumentando os erros de arredondamento que ocorrem. Então, é recomendável utilizar uma expressão alternativa que é obtida através de algumas manipulações algébricas na fórmula anterior:
 
 \begin{equation}
@@ -142,32 +142,24 @@ Os dados, quando estão em formato bruto e desorganizado, são conhecidos como d
 
 Como é possível analisar, a diferença se dá pelo \(f_i\) na fórmula dos dados desagrupados, sendo uma variável que representa a frequência absoluta da i-ésima classe (quantos dados caem nela).
 
-\subsection{Algoritmo de Welford}
-Dentro da fórmula padrão, podemos implementar em algoritmo da seguinte forma em Python:
+\subsection{Abordagens Computacionais para Cálculo de Variância}
 
-\input{./codes/variance-py-welford.tex}
+A implementação do cálculo da variância em sistemas computacionais pode ser feita por meio de diferentes estratégias. A abordagem tradicional (de duas passagens) calcula primeiramente a média aritmética de todo o conjunto de dados para, em uma segunda iteração, realizar a soma dos desvios quadráticos de cada elemento.
 
-O mesmo código, porém em Java:
+Por outro lado, o Algoritmo de Welford é um método matemático e computacional que calcula a média e a variância de forma incremental e numericamente estável, utilizando formulações recursivas. Ele permite que estatísticas sejam extraídas em tempo real conforme os dados são fornecidos, sem a necessidade de armazenar todos os valores na memória ou realizar múltiplas passagens pelos dados. A cada nova entrada de dado $x_n$, a média $\overline{x}_n$ é atualizada de acordo com a seguinte recorrência:
+\begin{equation}
+    \overline{x}_{n} = \overline{x}_{n-1} + \frac{x_{n} - \overline{x}_{n-1}}{n}
+    \label{eq:welford_media}
+\end{equation}
 
-\begin{verbatim}
-
-\end{verbatim}
-
-Porém, existe um algoritmo popular para o cálculo de variancia, conhecido como Algoritmo de Werlford. O algoritmo de Welford é um método matemático e computacional utilizado para calcular a média e a variância de um conjunto de dados de forma incremental e numericamente estável, utilizando-se de recursão. Ele permite que estatísticas em tempo real sejam extraídas conforme os dados chegam, sem a necessidade de armazenar todos os valores na memória ou calcular tudo de uma só vez.
-
-Em sua lógica, a cada nova entrada de dado \(x_{n}\), as fórmulas utilizadas pelo algoritmo baseiam-se em recorrências:
-
-\[\overline{x}_{n}=\overline{x}_{n-1}+\frac{x_{n}-\overline{x}_{n-1}}{n}\]
-
-Implementando em Python, esse algoritmo fica:
-
+Abaixo é apresentada a implementação em Python, contendo tanto a função tradicional de duas passagens quanto a abordagem estável de Welford:
 \input{codes/variance-py-welford.tex}
 
-A mesma lógica de código, porém em Java:
-
+A mesma lógica de implementação estruturada em linguagem Java, contendo ambos os métodos para comparação de resultados, é apresentada a seguir:
 \input{codes/variance-java-welford.tex}
 
-Este algoritmo é muito menos propenso à perda de precisão devido ao cancelamento catastrófico , mas pode não ser tão eficiente devido à operação de divisão dentro do laço. Para um algoritmo de duas passagens particularmente robusto para calcular a variância, pode-se primeiro calcular e subtrair uma estimativa da média e, em seguida, usar este algoritmo nos resíduos.
+Esse algoritmo incremental é muito menos propenso à perda de precisão decorrente de cancelamento catastrófico em ponto flutuante, sendo ideal para processamento de fluxos contínuos de dados (\textit{streaming}).
+
 
 
 \section{Desvio Padrão}
