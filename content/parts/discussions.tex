@@ -1,12 +1,50 @@
 \section{Discussão e Análise de Resultados}
 \label{cap:discussao}
 
-A aplicação prática dos conceitos probabilísticos por meio de simulações computacionais permitiu verificar a exatidão das formulações matemáticas e sua convergência sob diferentes condições experimentais.
+...
+\section{Discussão e Análise de Resultados}
 
-No primeiro experimento, referente ao lançamento triplo de moedas simulado em Java, a média empírica obtida em múltiplos ensaios de 100 eventos cada aproximou-se significativamente do valor teórico esperado de $0{,}125$ (ou $12{,}5\%$). A variância observada entre os blocos experimentais reflete a flutuação estocástica natural intrínseca a amostras de tamanho finito. À luz da Lei dos Grandes Números, o aumento das iterações de teste reduz progressivamente essa variância, fazendo com que a média amostral convirja assintoticamente para o valor real esperado.
+A análise do cenário inicial, guiada estritamente pela Teoria da Probabilidade clássica, permitiu mapear as chances estáticas dos eventos antes de qualquer imprevisto. No experimento do lançamento de moedas, a probabilidade teórica projetou uma chance clara de 12,5\% para a ocorrência tripla, servindo como uma linha de base sólida para os cálculos. Da mesma forma, no cenário analítico de diagnósticos, a probabilidade inicial indicava que apenas 1\% da população possuía determinada característica, estabelecendo uma fundação matemática estática antes da inserção de novas variáveis empíricas.
 
-Para o Valor Esperado, a simulação em Python demonstrou a convergência da soma cumulativa dos retornos gerados de forma randômica em relação à esperança matemática teórica. Ao utilizar um espaço amostral de $10^6$ elementos, a simulação ilustra de forma clara que, no início, há uma alta oscilação nos ganhos/perdas pontuais. No entanto, conforme o número de ensaios cresce em escala logarítmica, a curva experimental adere de maneira precisa à reta projetada pelo valor esperado teórico, confirmando o valor médio de longo prazo em modelos de decisão sob risco.
+Contudo, a introdução de novas evidências exigiu a aplicação do Teorema de Bayes, alterando drasticamente a percepção de risco mapeada inicialmente. Conforme ilustrado na Tabela \ref{tab:comparativo_bayes}, a probabilidade prévia de um indivíduo pertencer ao grupo de risco (1\%) sofreu um choque de realidade ao ser confrontada com um teste positivo, saltando para 16,10\%. Essa tabela comprova como a nova evidência calibra o sistema, demonstrando que confiar apenas na probabilidade estática inicial ou na alta precisão isolada de um teste (95\%) levaria a uma interpretação totalmente precipitada e arriscada.
 
-No caso do Teorema de Bayes, a simulação estocástica de $100.000$ pacientes virtuais validou com precisão o cálculo analítico do diagnóstico clínico. Embora o teste de detecção seja altamente sensível ($95\%$) e apresente baixa taxa de falso positivo ($5\%$), a baixa prevalência da doença ($1\%$) na população geral implica que a maioria absoluta dos diagnósticos positivos obtidos no exame provém de indivíduos saudáveis (falsos positivos). Os resultados simulados mostraram de forma consistente que a probabilidade empírica de um indivíduo de fato possuir a doença dado que seu teste foi positivo converge para a taxa teórica de aproximadamente $16{,}10\%$, com um erro absoluto residual desprezível de ordem estatística.
+\begin{table}[ht]
+    \centering
+    \caption{Comparação de Probabilidades: Cenário Estático vs. Atualização Bayesiana}
+    \label{tab:comparativo_bayes}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Métrica Analisada} & \textbf{Probabilidade Antes} & \textbf{Probabilidade Depois (Bayes)} \\ \hline
+        Prevalência Base na População & 1,00\% & - \\ \hline
+        Positivo Verdadeiro (Sensibilidade) & - & 95,00\% \\ \hline
+        Falso Positivo & - & 5,00\% \\ \hline
+        \textbf{Chance Real Atualizada} & \textbf{1,00\%} & \textbf{16,10\%} \\ \hline
+    \end{tabular}
+\end{table}
 
-Por fim, no que tange às Medidas de Dispersão, os testes de variância evidenciaram a robustez do Algoritmo de Welford em comparação com a abordagem tradicional de duas passagens. Enquanto a fórmula convencional exige primeiro a leitura total dos dados para computar a média aritmética e só depois o cálculo do somatório dos desvios quadráticos, o algoritmo incremental de Welford executa ambas as etapas em uma única iteração pelos dados. Além do ganho de eficiência no processamento de fluxos de dados massivos, a formulação recursiva contorna o problema do cancelamento catastrófico na representação de ponto flutuante, garantindo maior precisão em sistemas com recursos de armazenamento limitados.
+Com as probabilidades atualizadas em mãos, os dados foram submetidos à análise de Valor Esperado para projetar tendências a longo prazo sob a ótica da Lei dos Grandes Números. Para evidenciar esse comportamento, elaborou-se um algoritmo para análise de dados realizando um milhão de simulações com pesos e valores variados, estruturado da seguinte forma:
+
+[placeholder para o bloco de código Python do Valor Esperado]
+
+Observando o gráfico gerado por essa simulação (Figura \ref{fig:valor_esperado}), conclui-se que a média dos elementos aleatórios e sua comparação com o valor esperado não são inicialmente determinísticos. Com poucos dados gerados, cada sorteio possui um impacto extremo, resultando em violentas oscilações. Porém, quanto mais iterações são realizadas (principalmente ultrapassando a abscissa $10^2$ e ordenada $10^4$), mais as curvas tendem a se estabilizar e se alinhar uma sobre a outra, possuindo uma diferença insignificante e provando que a expectativa de longo prazo respeita a matemática calculada.
+
+\begin{figure}[ht]
+    \centering
+    [placeholder para a imagem do gráfico comparativo de Valor Esperado]
+    \caption{Convergência do Valor Esperado ao longo das iterações logarítmicas.}
+    \label{fig:valor_esperado}
+\end{figure}
+
+Por fim, a Variância atuou como o termômetro fundamental para medir a instabilidade da operação e atestar o nível de risco dos valores gerados. Para demonstrar a variabilidade de um grande volume de dados estocásticos, a variância empírica e a teórica foram calculadas cumulativamente a cada iteração, por meio do seguinte script:
+
+[placeholder para o bloco de código Python da Variância]
+
+Conforme atestado pelo decaimento exponencial na Figura \ref{fig:variancia}, ocorre uma primeira oscilação na variância que reflete a mesma instabilidade brutal visualizada inicialmente no gráfico de Valor Esperado. Contudo, com o passar da série de simulações, o alcance de variabilidade diminui e o gráfico segue caindo cada vez mais próximo de zero, sem nunca tocá-lo. Isso comprova de forma incontestável a nossa análise de risco: decisões estruturais baseadas em amostragens curtas sofrem de alta variância (alto risco), tornando-se seguras apenas quando o volume massivo de testes força a redução estrita do caos rumo à constância da média.
+
+\begin{figure}[ht]
+    \centering
+    [placeholder para a imagem do gráfico de Variância da Média Amostral]
+    \caption{Decaimento da Variância da Média em escala logarítmica.}
+    \label{fig:variancia}
+\end{figure}
+...
